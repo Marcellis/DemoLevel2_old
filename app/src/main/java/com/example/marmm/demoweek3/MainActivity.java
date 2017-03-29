@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,15 +20,16 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
 
 
     //Local variables
     private List<Reminder> mReminders;
-    private ArrayAdapter mAdapter;
-    private ListView mListView;
     private EditText mNewReminderText;
+
+    private ReminderAdapter mAdapter;
+    private RecyclerView mRecyclerView;
 
     //Constants used when calling the detail activity
     public static final String INTENT_DETAIL_ROW_NUMBER = "Row number";
@@ -42,12 +45,19 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Initialize the local variables
-        mListView = (ListView) findViewById(R.id.listView_main);
         mNewReminderText = (EditText) findViewById(R.id.editText_main);
-        mReminders = new ArrayList<>();
+        mReminders = new ArrayList<Reminder>();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        LinearLayoutManager mLayoutManager
+                           = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         updateUI();
 
+
+/*
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+*/
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -109,13 +120,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI() {
         if (mAdapter == null) {
-            mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mReminders);
-            mListView.setAdapter(mAdapter);
+            mAdapter = new ReminderAdapter(this, mReminders);
+            mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
         }
     }
-
 
 
     //Process return parameters
