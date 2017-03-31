@@ -92,28 +92,10 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
 
             super(v);
             textView = (TextView) v.findViewById(android.R.id.text1);
-             mView = v;
-
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
-            v.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-
-                    return true;
-                }
-            });
-
-        }
-
-
+            mView = v;
         }
     }
+}
 
 
 
