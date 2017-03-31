@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,34 +58,6 @@ public class MainActivity extends AppCompatActivity{
 
         updateUI();
 
-
-/*
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Reminder clickedReminder = (Reminder) adapterView.getItemAtPosition(i);
-
-                Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
-                intent.putExtra(INTENT_DETAIL_ROW_NUMBER, i);
-                intent.putExtra(INTENT_DETAIL_REMINDER_TEXT, clickedReminder.getmReminderText());
-                startActivityForResult(intent, REQUESTCODE);
-
-
-            }
-        });
-
-        //Set the long click listener for reminders in the list in order to remove a reminder
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mReminders.remove(i);
-                updateUI();
-                return true;
-            }
-        });
-
-*/
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -139,7 +113,7 @@ public class MainActivity extends AppCompatActivity{
 
                 Reminder updatedReminder = new Reminder ( data.getStringExtra(MainActivity.INTENT_DETAIL_REMINDER_TEXT) ) ;
                 // New timestamp: timestamp of update
-
+                Toast.makeText(this, mReminders.get(0).getmReminderText()+mReminders.get(1).getmReminderText()+mReminders.get(2).getmReminderText(), Toast.LENGTH_SHORT).show();
                 mReminders.set(positionOfReminder, updatedReminder);
                 mAdapter.notifyDataSetChanged();
                 // or UpdateUI() if this method has been implemented
