@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity{
 
                 Reminder updatedReminder = new Reminder ( data.getStringExtra(MainActivity.INTENT_DETAIL_REMINDER_TEXT) ) ;
                 // New timestamp: timestamp of update
-                Toast.makeText(this, mReminders.get(0).getmReminderText()+mReminders.get(1).getmReminderText()+mReminders.get(2).getmReminderText(), Toast.LENGTH_SHORT).show();
                 mReminders.set(positionOfReminder, updatedReminder);
                 mAdapter.notifyDataSetChanged();
                 // or UpdateUI() if this method has been implemented
