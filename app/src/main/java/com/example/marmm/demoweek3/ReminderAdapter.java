@@ -28,6 +28,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
     private List<Reminder> mReminders;
     private Context mContext;
 
+
     public ReminderAdapter(Context mContext, List<Reminder> mReminders) {
         this.mContext = mContext;
         this.mReminders = mReminders;
@@ -47,7 +48,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ReminderAdapter.ViewHolder holder, final int position) {
-
         final Reminder reminder =  mReminders.get(position);
 
         holder.textView.setText(reminder.getmReminderText());
@@ -55,19 +55,14 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, UpdateActivity.class);
-                intent.putExtra(INTENT_DETAIL_ROW_NUMBER, position);
-                intent.putExtra(INTENT_DETAIL_REMINDER_TEXT, reminder.getmReminderText());
-                ((MainActivity) mContext).startActivityForResult(intent, REQUESTCODE);
+                ((MainActivity) mContext).onClick(reminder, position);
             }
         });
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                mReminders.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position,mReminders.size());
+                ((MainActivity) mContext).onDoubleClick(position);
                 return true;
             }
         });
@@ -95,6 +90,14 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
             mView = v;
         }
     }
+
+    public  interface ItemClickListener{
+        public void onClick (Reminder reminder, int position);
+        public void onDoubleClick (int position);
+    }
+
+
+
 }
 
 
