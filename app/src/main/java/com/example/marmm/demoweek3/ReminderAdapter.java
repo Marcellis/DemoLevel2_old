@@ -97,7 +97,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
     }
 
 
-
 }
 
 
