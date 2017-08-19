@@ -9,21 +9,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ReminderAdapter.ItemClickListener{
-
+public class MainActivity extends AppCompatActivity implements ReminderAdapter.ReminderClickListener{
 
 
     //Local variables
@@ -124,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.I
         }
     }
 
-
     //Process return parameters
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -142,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.I
             }
         }
     }
-
 
 
     @Override
@@ -163,21 +155,20 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.I
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
-    public void onClick(Reminder clickedReminder, int position) {
+    public void ReminderonClick(Reminder reminder, int position) {
         Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
         intent.putExtra(INTENT_DETAIL_ROW_NUMBER, position);
-        intent.putExtra(INTENT_DETAIL_REMINDER_TEXT, clickedReminder.getmReminderText());
+        intent.putExtra(INTENT_DETAIL_REMINDER_TEXT, reminder.getmReminderText());
         startActivityForResult(intent, REQUESTCODE);
-
     }
 
     @Override
-    public void onDoubleClick(int position) {
+    public void ReminderonLongClick(int position) {
         mReminders.remove(position);
         mAdapter.notifyItemRemoved(position);
         mAdapter.notifyItemRangeChanged(position,mReminders.size());

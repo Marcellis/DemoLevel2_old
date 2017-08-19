@@ -28,44 +28,55 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
     private List<Reminder> mReminders;
     private Context mContext;
 
+    final private ReminderClickListener mReminderClickListener;
 
-    public ReminderAdapter(Context mContext, List<Reminder> mReminders) {
-        this.mContext = mContext;
+
+    public interface ReminderClickListener{
+
+        void ReminderonClick (Reminder reminder, int position);
+        void ReminderonLongClick (int position);
+    }
+
+
+    public ReminderAdapter(ReminderClickListener reminderClickListener, List<Reminder> mReminders) {
         this.mReminders = mReminders;
+        this.mReminderClickListener = reminderClickListener;
     }
 
     @Override
     public ReminderAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(android.R.layout.simple_list_item_1, null);
+        Context context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, null);
 
         // Return a new holder instance
         ReminderAdapter.ViewHolder viewHolder = new ReminderAdapter.ViewHolder(view);
         return viewHolder;
-
-
     }
 
     @Override
     public void onBindViewHolder(ReminderAdapter.ViewHolder holder, final int position) {
+
         final Reminder reminder =  mReminders.get(position);
 
         holder.textView.setText(reminder.getmReminderText());
 
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) mContext).onClick(reminder, position);
+                mReminderClickListener.ReminderonClick(reminder, position);
             }
         });
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                ((MainActivity) mContext).onDoubleClick(position);
+                mReminderClickListener.ReminderonLongClick(position);
                 return true;
             }
         });
+
 
     }
 
@@ -76,10 +87,10 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
 
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public View mView;
         public TextView textView;
+        public View mView;
 
         //Constructor
         public ViewHolder(View v) {
@@ -89,11 +100,8 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
             textView = (TextView) v.findViewById(android.R.id.text1);
             mView = v;
         }
-    }
 
-    public  interface ItemClickListener{
-        public void onClick (Reminder reminder, int position);
-        public void onDoubleClick (int position);
+
     }
 
 
