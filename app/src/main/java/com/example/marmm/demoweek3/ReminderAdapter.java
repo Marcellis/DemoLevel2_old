@@ -76,8 +76,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
                 return true;
             }
         });
-
-
     }
 
     @Override
@@ -100,7 +98,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
             textView = (TextView) v.findViewById(android.R.id.text1);
             mView = v;
         }
-
 
     }
 
