@@ -26,7 +26,6 @@ import static com.example.marmm.demoweek3.MainActivity.REQUESTCODE;
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder>  {
 
     private List<Reminder> mReminders;
-    private Context mContext;
 
     final private ReminderClickListener mReminderClickListener;
 

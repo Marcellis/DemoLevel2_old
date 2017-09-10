@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        
 
         //Initialize the local variables
         mNewReminderText = (EditText) findViewById(R.id.editText_main);
