@@ -1,4 +1,4 @@
-package com.example.marmm.demoweek3;
+package com.example.marmm.demoweek2;
 
 import org.junit.Test;
 

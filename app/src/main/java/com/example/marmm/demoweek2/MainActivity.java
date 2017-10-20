@@ -1,4 +1,4 @@
-package com.example.marmm.demoweek3;
+package com.example.marmm.demoweek2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Menu;
@@ -28,10 +29,6 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
     private RecyclerView mRecyclerView;
 
 
-    //Constants used when calling the detail activity
-    public static final String INTENT_DETAIL_ROW_NUMBER = "Row number";
-    public static final String INTENT_DETAIL_REMINDER_TEXT = "Reminder text";
-    public static final int REQUESTCODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,26 +49,6 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         updateUI();
-
-
-    //    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-    //        @Override
-    //        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-     //           Reminder clickedReminder = (Reminder) adapterView.getItemAtPosition(i);
-
-
-        //    }
-     //   });
-
-        //Set the long click listener for reminders in the list in order to remove a reminder
-    //    mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-      //      @Override
-       //     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-       //         mReminders.remove(i);
-        //        updateUI();
-       //         return true;
-       //     }
-     //   });
 
 
 
@@ -105,6 +82,36 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
 
             }
         });
+
+
+/*
+Add a touch helper to the RecyclerView to recognize when a user swipes to delete a list entry.
+An ItemTouchHelper enables touch behavior (like swipe and move) on each ViewHolder,
+and uses callbacks to signal when a user is performing these actions.
+*/
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder
+                            target) {
+                        return false;
+                    }
+
+                    //Called when a user swipes left or right on a ViewHolder
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+                        //Get the index corresponding to the selected position
+                        int position = (viewHolder.getAdapterPosition());
+                        mReminders.remove(position);
+                        mAdapter.notifyItemRemoved(position);
+                        mAdapter.notifyItemRangeChanged(position,mReminders.size());
+                    }
+                };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
     }
 
 
@@ -118,23 +125,7 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
         }
     }
 
-    //Process return parameters
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUESTCODE) {
-            if (resultCode == RESULT_OK) {
-                int positionOfReminder = data.getIntExtra(MainActivity.INTENT_DETAIL_ROW_NUMBER, -1);
-                //-1 being the default value in case of failure. Can be used to detect an issue.
-
-                Reminder updatedReminder = new Reminder ( data.getStringExtra(MainActivity.INTENT_DETAIL_REMINDER_TEXT) ) ;
-                // New timestamp: timestamp of update
-                mReminders.set(positionOfReminder, updatedReminder);
-                mAdapter.notifyDataSetChanged();
-                // or UpdateUI() if this method has been implemented
-            }
-        }
-    }
 
 
     @Override
@@ -159,13 +150,6 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
     }
 
 
-    @Override
-    public void ReminderonClick(Reminder reminder, int position) {
-        Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
-        intent.putExtra(INTENT_DETAIL_ROW_NUMBER, position);
-        intent.putExtra(INTENT_DETAIL_REMINDER_TEXT, reminder.getmReminderText());
-        startActivityForResult(intent, REQUESTCODE);
-    }
 
     @Override
     public void ReminderonLongClick(int position) {

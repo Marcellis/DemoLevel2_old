@@ -1,22 +1,14 @@
-package com.example.marmm.demoweek3;
+package com.example.marmm.demoweek2;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.List;
-
-import static com.example.marmm.demoweek3.MainActivity.INTENT_DETAIL_REMINDER_TEXT;
-import static com.example.marmm.demoweek3.MainActivity.INTENT_DETAIL_ROW_NUMBER;
-import static com.example.marmm.demoweek3.MainActivity.REQUESTCODE;
 
 
 /**
@@ -32,7 +24,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
 
     public interface ReminderClickListener{
 
-        void ReminderonClick (Reminder reminder, int position);
         void ReminderonLongClick (int position);
     }
 
@@ -60,13 +51,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
 
         holder.textView.setText(reminder.getmReminderText());
 
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mReminderClickListener.ReminderonClick(reminder, position);
-            }
-        });
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
