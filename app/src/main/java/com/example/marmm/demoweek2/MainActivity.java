@@ -68,10 +68,8 @@ public class MainActivity extends AppCompatActivity implements ReminderAdapter.R
                     //Add the text to the list (datamodel)
                     mReminders.add(newReminder);
 
-
                     //Tell the adapter that the data set has been modified: the screen will be refreshed.
                     updateUI();
-
 
                     //Initialize the EditText for the next item
                     mNewReminderText.setText("");
@@ -105,7 +103,6 @@ and uses callbacks to signal when a user is performing these actions.
                         int position = (viewHolder.getAdapterPosition());
                         mReminders.remove(position);
                         mAdapter.notifyItemRemoved(position);
-                        mAdapter.notifyItemRangeChanged(position,mReminders.size());
                     }
                 };
 
@@ -155,6 +152,5 @@ and uses callbacks to signal when a user is performing these actions.
     public void ReminderonLongClick(int position) {
         mReminders.remove(position);
         mAdapter.notifyItemRemoved(position);
-        mAdapter.notifyItemRangeChanged(position,mReminders.size());
     }
 }
